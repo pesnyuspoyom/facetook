@@ -8,7 +8,7 @@ import urllib.request
 import tempfile
 from django.core.files import File
 
-
+asdasdads
 def base2(request):
     return render(request, 'blog/base2.html')
 
