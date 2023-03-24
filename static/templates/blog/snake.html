@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+
+
+
+{% load static %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+  <script src="{% static 'snake.py' %}"></script>
+{% endblock %}

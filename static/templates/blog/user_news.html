@@ -1,0 +1,124 @@
+{% extends 'blog/base.html' %}
+
+{%block title%}
+    {{ title }}
+{% endblock %}
+
+{%block content%}
+    <h2>Все статьи от автора {{view.kwargs.username}}</h2>
+    <h4>Количество: {{ page_obj.paginator.count }}</h4>
+
+    {% for post in news %}
+        <div class="alert alert-light">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.text|striptags|truncatechars:100 }}</p>
+            <div class="d-flex">
+                <div>
+                    <img src="{{ post.avtor.profile.img.url }}" alt="{{ post.avtor }}" class="user_images">
+                </div>
+                <div class="me-2">
+                    <span class="text-muted">Публикация: {{ post.date|date:"d E Y, в H:i"}}</span>
+                    <p><b>Автор:</b><a href="{% url 'user-news' post.avtor %}">{{post.avtor}}</a></p>
+                </div>
+            </div>
+            <a href="{% url 'news-detail' post.id %}" class="btn btn-outline-warning mt-3">Читать далее</a>
+        </div>
+    {% endfor %}
+
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a href="{% url 'home' %}" class="btn btn-outline-danger">Начало</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-danger">Предыдущая</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <button class="btn btn-info">{{ num }}</button>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}" class="btn btn-outline-info">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-danger">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-danger">Последняя</a>
+        {% endif %}       
+    {% endif %}
+
+{% endblock %}
+
+{%block aside_block%}
+    <aside class="col-md-4">
+            <h3>Интересные статьи</h3>
+            <div class="card mb-3">
+                <h3 class="card-header">
+                    <ya-tr-span data-index="114-0" data-translated="true" data-source-lang="en" data-target-lang="ru"
+                                data-value="Card header" data-translation="Заголовок карты" data-ch="0"
+                                data-type="trSpan">Игры на Python
+                    </ya-tr-span>
+                </h3>
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">
+                        <ya-tr-span data-index="116-0" data-translated="true" data-source-lang="en"
+                                    data-target-lang="ru" data-value="Support card subtitle"
+                                    data-translation="Поддержка субтитров на карточке" data-ch="0" data-type="trSpan"
+                                    data-selected="false">Поблагодарим за это нашу любимую библиотеку Pygame!
+                        </ya-tr-span>
+                    </h6>
+                </div>
+                <img src="http://itproger.com/img/news/1589893627.jpg" class="img-thumbnail ">
+                <div class="card-body">
+                    <p class="card-text">
+                        <ya-tr-span data-index="91-0" data-translated="true" data-source-lang="en" data-target-lang="ru"
+                                    data-value="Some quick example text to build on the card title and make up the bulk of the card's content."
+                                    data-translation="Несколько кратких примеров текста для создания заголовка карточки и создания основной части содержимого карточки."
+                                    data-ch="1" data-type="trSpan">Уже не первый раз слышно, что кто то сделал игру на
+                            Python. Мне как начинающему программисту стало интересно, как же такое возмонжо. Я же знаком
+                            только с мельчайшим кусочком всего языка. Так давайте это узнаем!
+                        </ya-tr-span>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <a href="http://itproger.com/news/285" target="_blank">
+                        <button class="btn btn-warning">Посмотреть</button>
+                    </a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <h3 class="card-header">
+                    <ya-tr-span data-index="114-0" data-translated="true" data-source-lang="en" data-target-lang="ru"
+                                data-value="Card header" data-translation="Заголовок карты" data-ch="0"
+                                data-type="trSpan">Инновационный движок GODOT
+                    </ya-tr-span>
+                </h3>
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">
+                        <ya-tr-span data-index="116-0" data-translated="true" data-source-lang="en"
+                                    data-target-lang="ru" data-value="Support card subtitle"
+                                    data-translation="Поддержка субтитров на карточке" data-ch="0" data-type="trSpan"
+                                    data-selected="false">Давайте, наконец разберемся, что это за зверь такой!
+                        </ya-tr-span>
+                    </h6>
+                </div>
+                <img src="http://itproger.com/img/news/1591879929.jpg" class="img-thumbnail ">
+                <div class="card-body">
+                    <p class="card-text">
+                        <ya-tr-span data-index="91-0" data-translated="true" data-source-lang="en" data-target-lang="ru"
+                                    data-value="Some quick example text to build on the card title and make up the bulk of the card's content."
+                                    data-translation="Несколько кратких примеров текста для создания заголовка карточки и создания основной части содержимого карточки."
+                                    data-ch="1" data-type="trSpan">Уже не первый год слышно много про движок годот. Он
+                            стал очень привлекательным обновлением для наших геймдизайнеров, разработчиков, в общем всей
+                            наших специалистов.
+                        </ya-tr-span>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <a href="http://itproger.com/news/285" target="_blank">
+                        <button class="btn btn-warning">Посмотреть</button>
+                    </a>
+                </div>
+            </div>
+
+        </aside>
+{% endblock %}
+

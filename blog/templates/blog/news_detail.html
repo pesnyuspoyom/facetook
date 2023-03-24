@@ -1,0 +1,114 @@
+{% extends 'blog/base.html' %}
+
+{%block title%}
+{{ title }}
+{% endblock %}
+
+{%block content%}
+<div class="card border-dark mb-5">
+    <div class="card-header">{{ object.title }}</div>
+    <div class="card-body">
+        <h4 class="card-title">{{ object.text|safe }}</h4>
+    </div>
+    <hr>
+    <div style="display: flex; align-items: center;">
+        <div>
+            <img src="{{ object.avtor.profile.img.url }}" alt="{{ object.avtor }}" class="user_images">
+        </div>
+        <div style="margin-left: 10px; margin-top: 15px;">
+            <span class="text-muted">Публикация: {{ object.date|date:"d E Y, в H:i"}}</span>
+            <p>
+                <b>Автор:</b>
+                <button type="button" class="btn btn-primary btn-sm">
+                    <a href="{% url 'user-news' object.avtor %}"> {{object.avtor}}</a>
+                </button>
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block sidebar %}
+{% if object.avtor == user %}
+<div class="ms-auto">
+    <a class="btn btn-dark" style="margin-right: 10px" data-bs-toggle="offcanvas" href="#offcanvasExample"
+       role="button"
+       aria-controls="offcanvasExample">
+        <ya-tr-span data-index="280-0" data-translated="true" data-source-lang="en" data-target-lang="ru"
+                    data-value=" Link with href " data-translation="Ссылка с помощью href " data-ch="0"
+                    data-type="trSpan">Изменить
+        </ya-tr-span>
+    </a>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+         aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Вы можете выбрать действие для этой
+                статьи.</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                Выберите подходящее действие
+            </div>
+            <div class="dropdown mt-3">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Возможности
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                    <li><a class="dropdown-item btn-primary" href="{% url 'news-update' object.id %}">
+                        <ya-tr-span data-index="94-0" data-translated="true" data-source-lang="en"
+                                    data-target-lang="ru" data-value="Action" data-translation="Экшен"
+                                    data-ch="1"
+                                    data-type="trSpan">Изменить статью
+                        </ya-tr-span>
+                    </a></li>
+                    <li><a class="dropdown-item" href="{% url 'news-delete' object.id %}">
+                        <ya-tr-span data-index="95-0" data-translated="true" data-source-lang="en"
+                                    data-target-lang="ru" data-value="Another action"
+                                    data-translation="Еще одно действие" data-ch="1" data-type="trSpan">
+                            <button class="" type="button" id="delete-btn">Удалить</button>
+                        </ya-tr-span>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+document.getElementById('delete-btn').addEventListener('click', function() {
+    if (confirm('Вы уверены, что хотите удалить эту статью?')) {
+        fetch('{% url "news-delete" object.id %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({'id': '{{ object.id }}'}),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Статья успешно удалена');
+                window.location.href = '{% url "home" %}';
+            } else {
+                alert('Не удалось удалить статью');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+});
+
+
+    </script>
+</div>
+{% endif %}
+{% endblock %}
+

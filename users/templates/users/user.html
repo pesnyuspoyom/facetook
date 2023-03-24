@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{%block title%}
+    Страница авторизации
+{% endblock %}
+
+{%block content%}   
+    <h1>Страница авторизации</h1>
+    <form method="post" class="form-register auth">
+        {% comment %} если не написать команду csrf_token данные из формачек не будут нам передаваться и мы ничего не сможем с ними делать {% endcomment %}
+        {% csrf_token %}   
+        {{ form.as_p }}
+        <button class="btn btn-outline-warning" type="submit">Войти</button>
+
+    </form>
+
+{% endblock %}
+
+{%block sidebar%}
+    {% endblock %}
+

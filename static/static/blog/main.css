@@ -1,0 +1,45 @@
+#offcanvasExample {
+    box-shadow: none;
+}
+
+.alert-light {
+    border-color: #bfbfbf;
+}
+
+.user_images {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-left: 20px;
+}
+
+
+
+.form-register {
+    padding: 20px;
+    margin-top: 20px;
+    margin-top: 20px;
+}
+
+.form-register  .helptext {color:#b7b7b7}
+
+.form-register ul.errorlist{
+    color: #ca5858;
+    font-weight: bold;
+}
+
+.form-register.auth input, .form-register.auth textarea {
+
+    width: 100%;
+    margin-top: 5px;
+
+
+    padding: 10px;
+}
+
+footer{
+    width: 70%;
+    margin-left: 15%;
+}
+
